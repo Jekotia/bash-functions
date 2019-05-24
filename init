@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
+#-> RELIES ON $FUNC HAVING BEEN SET BY THE SCRIPT CALLING IT
+source ${FUNC}debug
+source ${FUNC}errcho
+source ${FUNC}loader
+
+debug "end ${FUNC}init"
+debug
+debug
+

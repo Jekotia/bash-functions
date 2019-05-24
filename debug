@@ -1,0 +1,25 @@
+#! /bin/bash
+
+#-> CHECKS IF DEBUG IS SET TO TRUE AND ECHOS ALL ARGS IF SO
+#-> TAKES STRINGS AS ARGS
+#-> ALWAYS RETURNS 0
+function debug() {
+	if [[ "$DEBUG" == "true" ]] ; then
+		>&2 echo "DEBUG >>>> $@"
+	fi
+	return 0
+}
+
+#-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
+case $1 in
+	--debug)
+		shift
+		DEBUG=true
+		debug
+		debug "DEBUG STATEMENTS ENABLED. THESE WILL GO TO STDERR SO AS NOT TO CONTAMINATE STRING RETURNS"
+		debug
+	;;
+esac
+
+debug "Sourced file: $BASH_SOURCE"
+debug

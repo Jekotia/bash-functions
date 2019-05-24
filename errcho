@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#-> SENDS STRING TO STDERR
+#-> TAKES A STRING AS ARGS
+#-> RETURNS STATUS OF ECHO
+function errcho() {
+	>&2 echo "ERROR >>>> $@"
+	return $?
+}
+
+debug "Sourced file: $BASH_SOURCE"
+debug

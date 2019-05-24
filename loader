@@ -1,0 +1,45 @@
+#! /bin/bash
+#-> PRIMARY FUNCTION FILE LOADER
+#-> LOADS ALL FILES ENDING IN .sh UNDER THE PATH SAVED AS $FUNC, TO ANY DEPTH
+
+debug "BEGIN loader"
+debug
+
+#-> DETERMINE MAXIMUM DEPTH OF $FUNC DIRECTORY TREE
+max_depth=$(find ${FUNC} -type d -printf '%d\n' | sort -rn | head -1)
+#-> INCREMENT MAX DEPTH BY ONE, SINCE IT COMES UP SHORT FOR OUR PURPOSES
+((max_depth++))
+#-> SET VARIABLE FOR TRACKING CURRENT DEPTH
+depth=0
+
+#-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
+while [ ${depth} -lt ${max_depth} ] ; do
+	SOURCEPATH=${FUNC}${depth_str}*.sh
+	debug "Sourcing at depth ${depth}"
+
+	#-> LOOP FOR EACH FILE AT THE PATH EXPRESSED BY $SOURCE_PATH
+	for f in ${SOURCE_PATH}*.sh ; do
+		#-> VERIFY THAT THERE ARE .sh FILES AT THIS LEVEL TO AVOID ERRORS
+		#-> IF THERE ARE, CONTINUE SOURCING. IF NOT, CONTINUE BUT DO NOTHING
+		files=$(shopt -s nullglob dotglob; echo ${SOURCE_PATH}*.sh)
+		if (( ${#files} )) ; then
+			source $f
+			errcode=$?
+			if [ ${errcode} -ne 0 ] ; then
+				debug "Failed to source $f"
+			else
+				debug "Sourced file: $f"
+			fi
+		else
+			debug "empty (or does not exist, or is not a .sh file)"
+		fi
+	done
+
+	#-> INCREASE THE DEPTH EXPRESSED
+	depth_str=${depth_str}*/
+	((depth++))
+	debug
+done
+
+debug "END loader"
+debug
