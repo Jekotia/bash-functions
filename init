@@ -2,18 +2,13 @@
 
 #-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
 #-> RELIES ON $_ROOT HAVING BEEN SET BY THE SCRIPT CALLING IT, POINTING TO THE DIRECTORY CONTAINING init
-source ${DIR}debug
-source ${DIR}errcho
-source ${DIR}loader
+_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source ${_ROOT}/debug
+source ${_ROOT}/errcho
+source ${_ROOT}/loader
 
 loader "${_ROOT}"
-
-#-> CHECK FOR A PROJECT_FUNCTIONS FOLDER TO RUN THROUGH THE LOADER
-if [ -d "${_ROOT}../project_functions/" ] ; then
-	loader "${_ROOT}../project_functions/"
-fi
 
 debug "end ${_ROOT}init"
 debug
 debug
-
