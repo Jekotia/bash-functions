@@ -1,0 +1,35 @@
+#! /bin/bash
+#-> Installs sudo if needed and creates a user in the sudo group.
+#-> $1 - Required - username
+#-> $2 - Required - password
+function user_add_sudo {
+	isRoot "exit"
+
+	USERNAME="$1"
+	USERPASS="$2"
+
+	if [ ! -n "$USERNAME" ] || [ ! -n "$USERPASS" ]; then
+		errcho "No new username and/or password entered"
+		return 1;
+	fi
+
+	if package_install --unattended sudo ; then
+		if adduser $USERNAME --disabled-password --gecos "" ; then
+			if echo "$USERNAME:$USERPASS" | chpasswd ; then
+				if usermod -aG sudo $USERNAME ; then
+					return 0
+				else
+					errcho "FAILED AT USERMOD"
+					return 1
+				fi
+			else
+				errcho "FAILED AT CHPASSWD"
+				return 1
+			fi
+		else
+			errcho "FAILED AT USERADD"
+		fi
+	else
+		errcho "FAILED AT INSTALLING SUDO"
+	fi
+}

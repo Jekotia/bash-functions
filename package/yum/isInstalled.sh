@@ -10,6 +10,5 @@ function package_yum_isInstalled {
 	errcode=$?
 
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
-
 	return ${errcode}
 }
