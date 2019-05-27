@@ -9,6 +9,6 @@ source ${_ROOT}/loader
 
 loader "${_ROOT}"
 
-debug "end ${_ROOT}init"
+debug "end ${_ROOT}/init"
 debug
 debug

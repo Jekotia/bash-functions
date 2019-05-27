@@ -19,13 +19,13 @@ function loader() {
 
 	#-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
 	while [ ${depth} -lt ${max_depth} ] ; do
-		debug "Sourcing at depth ${depth} in directory ${FUNC_PATH}${depth_str}"
+		debug "Sourcing at depth ${depth} in directory ${FUNC_PATH}/${depth_str}"
 
 		#-> LOOP FOR EACH FILE AT THE PATH EXPRESSED BY $SOURCE_PATH
-		for f in ${FUNC_PATH}${depth_str}*.sh ; do
+		for f in ${FUNC_PATH}/${depth_str}*.sh ; do
 			#-> VERIFY THAT THERE ARE .sh FILES AT THIS LEVEL TO AVOID ERRORS
 			#-> IF THERE ARE, CONTINUE SOURCING. IF NOT, CONTINUE BUT DO NOTHING
-			files=$(shopt -s nullglob dotglob; echo ${FUNC_PATH}${depth_str}*.sh)
+			files=$(shopt -s nullglob dotglob; echo ${FUNC_PATH}/${depth_str}*.sh)
 			if (( ${#files} )) ; then
 				source $f
 				errcode=$?
