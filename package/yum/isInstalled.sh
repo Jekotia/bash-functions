@@ -9,6 +9,6 @@ function package_yum_isInstalled {
 	yum list installed "$@" >/dev/null 2>&1
 	errcode=$?
 
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
 	return ${errcode}
 }

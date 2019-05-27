@@ -13,22 +13,26 @@ function package_getManager() {
 		APTGET_CMD=$(which apt-get 2>/dev/null )
 
 		if [[ ! -z "$YUM_CMD" ]]; then
+			errcode=$?
 			PACKAGE_MANAGER=yum
-			PACKAGE_MANAGER_CMD="${YUM_CMD}"
+			#PACKAGE_MANAGER_CMD="${YUM_CMD}"
 		elif [[ ! -z "$APTGET_CMD" ]]; then
+			errcode=$?
 			PACKAGE_MANAGER=aptget
-			PACKAGE_MANAGER_CMD="${APTGET_CMD}"
+			#PACKAGE_MANAGER_CMD="${APTGET_CMD}"
 		else
+			errcode=$?
+
 			errcho "Unable to detect a supported package manager."
-			debug "END FUNCTION ${FUNCNAME[0]}"
-			return 1
 		fi
 
 		debug "PACKAGE_MANAGER=${PACKAGE_MANAGER}"
 		debug "PACKAGE_MANAGER_CMD=${PACKAGE_MANAGER_CMD}"
 	else
+		errcode=0
 		debug "\$PACKAGE_MANAGER ALREADY SET."
 	fi
-	debug "END FUNCTION ${FUNCNAME[0]}"
-	return 0
+
+	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	return $errcode
 }

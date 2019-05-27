@@ -1,11 +1,9 @@
 #! /bin/bash
 
-#-> INSTALLS PACKAGES USING YUM
-#-> TAKES THE FOLLOWING OPTIONAL ARGS, WHICH ARE CONVERTED TO THE CORRECT YUM ARGS
-#->   --unattended
-#->   --verbose
-#-> RETURNS THE EXIT CODE OF THE YUM COMMAND
-function package_yum_install() {
+#-> 
+#-> 
+#-> 
+function package_yum_update() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 	#-> CHECK IF ARGUMENTS FOR THE PACKAGE MANAGER HAVE
 	#-> BEEN PASSED, AND SET THEIR YUM EQUIVALENTS IF SO.

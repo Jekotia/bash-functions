@@ -6,18 +6,12 @@
 function package_isInstalled() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 	if package_getManager ; then
-#		if [[ ! -z "${PACKAGE_MANAGER}" ]] ; then
-			package_${PACKAGE_MANAGER}_isInstalled $@
-			errcode=$?
-
-			debug "END FUNCTION ${FUNCNAME[0]}"
-
-			return ${errcode}
-#		fi
-#		debug "END FUNCTION ${FUNCNAME[0]}"
-#		return 1
+		package_${PACKAGE_MANAGER}_isInstalled $@
+		errcode=$?
 	else
-		debug "END FUNCTION ${FUNCNAME[0]}"
-		return 1
+		errcode=$?
 	fi
+
+	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	return ${errcode}
 }
