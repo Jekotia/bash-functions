@@ -13,7 +13,7 @@ function user_ssh_addPublicKey {
 
 		debug "END FUNCTION ${FUNCNAME[0]}"
 		return 1
-	elif [ ! -f "${KEY_PATH} ] ; then
+	elif [ ! -f "${KEY_PATH}" ] ; then
 		errcho "Provided public key file path does not exist."
 
 		debug "END FUNCTION ${FUNCNAME[0]}"
