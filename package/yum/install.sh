@@ -19,6 +19,10 @@ function package_yum_install() {
 				args="${args} --verbose"
 				debug "Package manager is now verbose"
 			;;
+			--*)
+				errcho "Invalid argument ($1) provided."
+				return 1
+			;;
 			*)
 				break
 			;;
