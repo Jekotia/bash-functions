@@ -6,6 +6,12 @@ source ${FUNC}debug
 source ${FUNC}errcho
 source ${FUNC}loader
 
+#-> CHECK FOR A PROJECT_FUNCTIONS FOLDER TO RUN THROUGH THE LOADER
+if [ -d "${FUNC}../project_functions/" ] ; then
+	FUNC="${FUNC}../project_functions/"
+	source ${FUNC}
+fi
+
 debug "end ${FUNC}init"
 debug
 debug
