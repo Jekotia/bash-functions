@@ -14,7 +14,7 @@ depth=0
 
 #-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
 while [ ${depth} -lt ${max_depth} ] ; do
-	debug "Sourcing at depth ${depth}"
+	debug "Sourcing at depth ${depth} in directory ${FUNC}${depth_str}"
 
 	#-> LOOP FOR EACH FILE AT THE PATH EXPRESSED BY $SOURCE_PATH
 	for f in ${FUNC}${depth_str}*.sh ; do
