@@ -1,18 +1,19 @@
 #! /bin/bash
 
 #-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
-#-> RELIES ON $FUNC HAVING BEEN SET BY THE SCRIPT CALLING IT
-source ${FUNC}debug
-source ${FUNC}errcho
-source ${FUNC}loader
+#-> RELIES ON $_ROOT HAVING BEEN SET BY THE SCRIPT CALLING IT, POINTING TO THE DIRECTORY CONTAINING init
+source ${DIR}debug
+source ${DIR}errcho
+source ${DIR}loader
+
+loader "${_ROOT}"
 
 #-> CHECK FOR A PROJECT_FUNCTIONS FOLDER TO RUN THROUGH THE LOADER
-if [ -d "${FUNC}../project_functions/" ] ; then
-	FUNC="${FUNC}../project_functions/"
-	source ${FUNC}
+if [ -d "${_ROOT}../project_functions/" ] ; then
+	loader "${_ROOT}../project_functions/"
 fi
 
-debug "end ${FUNC}init"
+debug "end ${_ROOT}init"
 debug
 debug
 
