@@ -3,7 +3,7 @@
 #-> INSTALLS RPM FROM URL
 #-> TAKES URL AS ARG
 #-> RETURNS 0 FOR SUCCESS OR 1 FOR FAILURE
-function package_yum_installFromURL {
+function package_yum_installFromURL() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 
 	isRoot "exit"
