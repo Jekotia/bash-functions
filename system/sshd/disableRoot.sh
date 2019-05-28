@@ -3,7 +3,7 @@
 #-> DISABLES ROOT ACCESS VIA SSH
 #-> NO ARGS
 #-> 
-function system_sshd_disableRoot {
+function system_sshd_disableRoot() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 
 	isRoot "exit"
