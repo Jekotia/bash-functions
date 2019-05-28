@@ -2,7 +2,7 @@
 #-> Adds the users public key to authorized_keys for the specified user. Make sure you wrap your input variables in double quotes, or the key may not load properly.
 #-> $1 - Required - USER
 #-> $2 - Required - public key
-function user_ssh_addPublicKey {
+function user_ssh_addPublicKey() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 
 	local USER="$1"

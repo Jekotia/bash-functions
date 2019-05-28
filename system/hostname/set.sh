@@ -3,7 +3,7 @@
 #-> 
 #-> 
 #-> 
-function system_hostname_set {
+function system_hostname_set() {
 	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
 
 	isRoot "exit"
