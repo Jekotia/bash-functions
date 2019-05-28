@@ -5,9 +5,14 @@
 #-> ALWAYS RETURNS 0
 function debug() {
 	if [[ "$DEBUG" == "true" ]] ; then
-		>&2 echo "DEBUG >>>> $@"
+		local str="${@}"
+
+		if [[ ! -z "${str}" ]] ; then
+			>&2 echo "DEBUG >>>> $@"
+		fi
+		return 0
 	fi
-	return 0
+	return 1
 }
 
 #-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
