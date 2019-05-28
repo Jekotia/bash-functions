@@ -4,7 +4,7 @@
 #-> TAKES FILE PATH AS ARG
 #-> RETURNS 0 FOR SUCCESS OR 1 FOR FAILURE
 function package_yum_installFromFile {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
 
 	isRoot "exit"
 
@@ -13,6 +13,6 @@ function package_yum_installFromFile {
 	rpm -vhi "${file}"
 	errcode=$?
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return $errcode
 }

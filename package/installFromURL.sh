@@ -4,7 +4,8 @@
 #-> 
 #-> 
 function package_installFromURL() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
+
 	if package_getManager ; then
 		package_${PACKAGE_MANAGER}_installFromURL "$@"
 		errcode=$?
@@ -12,6 +13,6 @@ function package_installFromURL() {
 		errcode=$?
 	fi
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return ${errcode}
 }

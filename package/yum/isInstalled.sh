@@ -4,11 +4,11 @@
 #-> TAKES PACKAGE NAME (STRING) AS INPUT
 #-> RETURNS EXIT CODE OF YUM
 function package_yum_isInstalled() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
 
 	yum list installed "$@" >/dev/null 2>&1
 	errcode=$?
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return ${errcode}
 }

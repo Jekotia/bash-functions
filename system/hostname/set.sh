@@ -4,7 +4,7 @@
 #-> 
 #-> 
 function system_hostname_set() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
 
 	isRoot "exit"
 
@@ -13,7 +13,7 @@ function system_hostname_set() {
 
 	if [ ! -n "$HOSTNAME" ]; then
 		echo "Hostname undefined"
-		debug "END FUNCTION ${FUNCNAME[0]}"
+		funcEnd "$errcode"
 		return 1;
 	fi
 
@@ -25,6 +25,6 @@ function system_hostname_set() {
 		errcode=$?
 	fi
 
-	debug "END FUNCTION ${FUNCNAME[0]}"
+	funcEnd "$errcode"
 	return $errcode
 }

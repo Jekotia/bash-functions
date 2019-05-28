@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#-> 
+#-> 
+#-> 
+function funcStart() {
+	debug "BEGIN FUNCTION ${FUNCNAME[1]}"
+	return $?
+}
+
+debug "Sourced file: $BASH_SOURCE"
+debug

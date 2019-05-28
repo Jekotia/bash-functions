@@ -4,7 +4,8 @@
 #-> 
 #-> 
 function package_yum_update() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
+
 	#-> CHECK IF ARGUMENTS FOR THE PACKAGE MANAGER HAVE
 	#-> BEEN PASSED, AND SET THEIR YUM EQUIVALENTS IF SO.
 	while :; do
@@ -34,6 +35,6 @@ function package_yum_update() {
 	${YUM_CMD} install "${args}" "${packages}"
 	errcode=$?
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return $errcode
 }

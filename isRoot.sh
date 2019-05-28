@@ -4,7 +4,7 @@
 #-> TAKES OPTIONAL STRING ARG WITH VALUE "exit". IF PRESENT, THIS WILL IMMEDIATELY TERMINATE EXECUTION IF THE CHECK FAILS
 #-> RETURNS 0 IF IN A SU ENV, 1 OTHERWISE
 function isRoot() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
 
 	if [[ `id -u` == "0" ]] ; then
 		errcode=$?
@@ -17,6 +17,6 @@ function isRoot() {
 		fi
 	fi
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return $errcode
 }

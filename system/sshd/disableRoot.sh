@@ -4,7 +4,7 @@
 #-> NO ARGS
 #-> 
 function system_sshd_disableRoot() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
 
 	isRoot "exit"
 
@@ -15,6 +15,6 @@ function system_sshd_disableRoot() {
 		errcode=$?
 	fi
 
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcEnd "$errcode"
 	return $errcode
 }

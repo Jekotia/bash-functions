@@ -1,0 +1,19 @@
+#! /bin/bash
+
+#-> 
+#-> 
+#-> 
+function funcEnd() {
+	local retval="${@}"
+	local str="END FUNCTION ${FUNCNAME[1]}"
+
+	if [ ! -z ${retval} ] ; then
+		str="${str} with errcode of $retval"
+	fi
+
+	debug "${str}"
+	return $?
+}
+
+debug "Sourced file: $BASH_SOURCE"
+debug

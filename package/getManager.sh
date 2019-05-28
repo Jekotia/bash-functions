@@ -4,7 +4,8 @@
 #-> TAKES NO ARGS
 #-> RETURNS 0 IF IT FINDS A SUPPORTED MANAGER, 1 IF IT DOES NOT
 function package_getManager() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
+
 	#-> CHECK IF $PACKAGE_MANAGER HAS BEEN PREVIOUSLY SET, TO AVOID UNNECESSARY PROCESSING
 	if [[ -z "${PACKAGE_MANAGER}" ]] ; then
 		#-> ATTEMPT TO GET PATH TO YUM
@@ -33,6 +34,6 @@ function package_getManager() {
 		debug "\$PACKAGE_MANAGER ALREADY SET."
 	fi
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return $errcode
 }

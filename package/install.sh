@@ -7,7 +7,8 @@
 #-> TAKES A LIST OF PACKAGES AS THE FINAL ARGUMENT
 #-> RETURNS THE EXIT STATUS OF THE package_${PACKAGE_MANAGER}_install FUNCTION, OR 1 IF IT FAILS TO FIND A SUPPORTED PACKAGE MANAGER.
 function package_install() {
-	debug "BEGIN FUNCTION ${FUNCNAME[0]}"
+	funcStart
+
 	if package_getManager ; then
 		package_${PACKAGE_MANAGER}_install $@
 		errcode=$?
@@ -15,6 +16,6 @@ function package_install() {
 		errcode=$?
 	fi
 
-	debug "END FUNCTION ${FUNCNAME[0]} with errcode of $errcode"
+	funcEnd "$errcode"
 	return $errcode
 }
