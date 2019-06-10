@@ -1,33 +1,53 @@
 #! /bin/bash
 
 #-> PRIMARY FUNCTION FILE LOADER. LOADS ALL FILES ENDING IN .sh UNDER THE PATH PROVIDED, TO ANY DEPTH
-#-> TAKES ONE STRING ARG AS FUNCTION PATH
+#-> TAKES THREE ARGS
+#->   - $1|path = DIRECTORY TO BEGIN IN
+#->   - $2|max_depth = MAXIMUM DIRECTORY DEPTH; INTEGER, 0 FOR UNLIMITED
+#->   - $3|str = FILE NAME MATCHING PATTERN
 function loader() {
-	debug "BEGIN loader"
-	debug
+	funcStart
 
 	#-> SET VARIABLE CONTAINING PATH TO SOURCE FROM
-	local FUNC_PATH="${@}"
-	#-> DETERMINE MAXIMUM DEPTH OF $FUNC_PATH DIRECTORY TREE
-	local max_depth=$(find ${FUNC_PATH} -type d -printf '%d\n' | sort -rn | head -1)
+	local path="${1}" ; shift
+
+	local max_depth
+	if [[ "${1}" == "0" ]] ; then #|| [[ "${@}" == "" ]] ; then
+		#-> DETERMINE MAXIMUM DEPTH OF $path DIRECTORY TREE
+		max_depth=$(find "${path}" -type d -printf '%d\n' | sort -rn | head -1)
+		((max_depth--))
+	else
+		max_depth=${1}
+	fi
+
+	debug "Maximum loader depth: ${max_depth}"
+	shift
+
 	#-> INCREMENT MAX DEPTH BY ONE, SINCE IT COMES UP SHORT FOR OUR PURPOSES
-	((max_depth++))
+
+	#-> SET VARIABLE CONTAINING FILE MATCHING GLOB
+	local str="${1}" ; shift
+
 	#-> SET VARIABLE FOR TRACKING CURRENT DEPTH
 	local depth=0
 	#-> SET VERIABLE FOR BUILDING DEPTH-BASED PATH TO SOURCE FROM
 	local depth_str=""
 
 	#-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
-	while [ ${depth} -lt ${max_depth} ] ; do
-		debug "Sourcing at depth ${depth} in directory ${FUNC_PATH}/${depth_str}"
+	while [ ${depth} -ne "${max_depth}" ] ; do
+		local target="${path}/${depth_str}${str}"
+#		debug $target
+		debug "Sourcing at depth ${depth} in directory ${path}/${depth_str}"
 
 		#-> LOOP FOR EACH FILE AT THE PATH EXPRESSED BY $SOURCE_PATH
-		for f in ${FUNC_PATH}/${depth_str}*.sh ; do
+#		for f in `ls -v ${target}` ; do
+		for f in ${target} ; do
 			#-> VERIFY THAT THERE ARE .sh FILES AT THIS LEVEL TO AVOID ERRORS
 			#-> IF THERE ARE, CONTINUE SOURCING. IF NOT, CONTINUE BUT DO NOTHING
-			files=$(shopt -s nullglob dotglob; echo ${FUNC_PATH}/${depth_str}*.sh)
+			files=$(shopt -s nullglob dotglob; echo "${target}")
 			if (( ${#files} )) ; then
-				source $f
+				# shellcheck disable=1090
+				source "$f"
 				errcode=$?
 				if [ ${errcode} -ne 0 ] ; then
 					debug "Failed to source $f"
@@ -40,11 +60,11 @@ function loader() {
 		done
 
 		#-> INCREASE THE DEPTH EXPRESSED
-		depth_str=${depth_str}*/
+		depth_str="${depth_str}*/"
 		((depth++))
 		debug
 	done
 
-	debug "END loader"
-	debug
+	funcEnd
+	return 0
 }

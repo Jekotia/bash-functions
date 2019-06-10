@@ -3,14 +3,21 @@
 #-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
 #-> RELIES ON $_ROOT HAVING BEEN SET BY THE SCRIPT CALLING IT, POINTING TO THE DIRECTORY CONTAINING init
 _ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-source ${_ROOT}/debug
-source ${_ROOT}/funcStart
-source ${_ROOT}/funcEnd
-source ${_ROOT}/errcho
-source ${_ROOT}/loader
+# shellcheck source=./debug
+source "${_ROOT}/debug"
+# shellcheck source=./funcStart
+source "${_ROOT}/funcStart"
+# shellcheck source=./funcEnd
+source "${_ROOT}/funcEnd"
+# shellcheck source=./errcho
+source "${_ROOT}/errcho"
+# shellcheck source=./loader
+source "${_ROOT}/loader"
 
-loader "${_ROOT}"
+loader "${_ROOT}" "0" "*.sh"
 
 debug "end ${_ROOT}/init"
 debug
 debug
+#-> FIGURE OUT ALTERNATIVE AS THE DEBUG RETURNS OF 1 ARE BEING PASSED TO THE PARENT
+echo
