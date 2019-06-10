@@ -7,7 +7,7 @@ function package_installFromURL() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_installFromURL "$@"
+		package_"${PACKAGE_MANAGER}"_installFromURL "$@"
 		errcode=$?
 	else
 		errcode=$?

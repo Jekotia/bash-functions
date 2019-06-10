@@ -7,7 +7,7 @@ function package_updateCache() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_updateCache "$@"
+		package_"${PACKAGE_MANAGER}"_updateCache "$@"
 		errcode=$?
 	else
 		errcode=$?

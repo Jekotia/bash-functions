@@ -7,7 +7,7 @@ function package_update() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_update "$@"
+		package_"${PACKAGE_MANAGER}"_update "$@"
 		errcode=$?
 	else
 		errcode=$?

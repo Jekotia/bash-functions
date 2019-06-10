@@ -7,7 +7,7 @@ function package_isInstalled() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_isInstalled "$@"
+		package_"${PACKAGE_MANAGER}"_isInstalled "$@"
 		errcode=$?
 	else
 		errcode=$?

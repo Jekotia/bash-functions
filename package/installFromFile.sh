@@ -7,7 +7,7 @@ function package_installFromFile() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_installFromFile "$@"
+		package_"${PACKAGE_MANAGER}"_installFromFile "$@"
 		errcode=$?
 	else
 		errcode=$?

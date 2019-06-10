@@ -10,7 +10,7 @@ function package_install() {
 	funcStart
 
 	if package_getManager ; then
-		package_${PACKAGE_MANAGER}_install "$@"
+		package_"${PACKAGE_MANAGER}"_install "$@"
 		errcode=$?
 	else
 		errcode=$?
