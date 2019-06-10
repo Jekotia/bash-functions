@@ -1,0 +1,13 @@
+#! /bin/bash
+
+#-> 
+#-> 
+#-> 
+function skeleton() {
+	funcStart ; local errcode
+
+	### FUNCTION CODE HERE ###
+
+	funcEnd "$errcode"
+	return "$errcode"
+}
