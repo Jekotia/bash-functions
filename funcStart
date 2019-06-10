@@ -5,8 +5,10 @@
 #-> 
 function funcStart() {
 	debug "BEGIN FUNCTION ${FUNCNAME[1]}"
-	return $?
+	local errcode=$?
+	((DEBUG_DEPTH++))
+	return ${errcode}
 }
 
-debug "Sourced file: $BASH_SOURCE"
+debug "Sourced file: ${BASH_SOURCE[0]}"
 debug

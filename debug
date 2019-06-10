@@ -1,18 +1,29 @@
 #! /bin/bash
 
+
 #-> CHECKS IF DEBUG IS SET TO TRUE AND ECHOS ALL ARGS IF SO
 #-> TAKES STRINGS AS ARGS
 #-> ALWAYS RETURNS 0
 function debug() {
+#	local errcode
 	if [[ "$DEBUG" == "true" ]] ; then
-		local str="${@}"
+		local str="${*}"
+		local debug_depth_str="${debug_depth_str}"
 
 		if [[ ! -z "${str}" ]] ; then
-			>&2 echo "DEBUG >>>> $@"
+			local debug_depth_loop=0
+
+			while [ ${debug_depth_loop} -lt "${DEBUG_DEPTH}" ] ; do
+				debug_depth_str="${debug_depth_str} "
+				((debug_depth_loop++))
+			done
+
+			>&2 echo "DEBUG ${debug_depth_str}> ${str}"
 		fi
 		return 0
+	else
+		return 0
 	fi
-	return 1
 }
 
 #-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
@@ -20,11 +31,12 @@ case $1 in
 	--debug)
 		shift
 		DEBUG=true
+		DEBUG_DEPTH=0
 		debug
 		debug "DEBUG STATEMENTS ENABLED. THESE WILL GO TO STDERR SO AS NOT TO CONTAMINATE STRING RETURNS"
 		debug
 	;;
 esac
 
-debug "Sourced file: $BASH_SOURCE"
+debug "Sourced file: ${BASH_SOURCE[0]}"
 debug

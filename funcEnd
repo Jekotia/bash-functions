@@ -4,16 +4,19 @@
 #-> 
 #-> 
 function funcEnd() {
-	local retval="${@}"
+	local errcode
+	local retval="${*}"
 	local str="END FUNCTION ${FUNCNAME[1]}"
 
-	if [ ! -z ${retval} ] ; then
+	if [ ! -z "${retval}" ] ; then
 		str="${str} with errcode of $retval"
 	fi
 
-	debug "${str}"
-	return $?
+	((DEBUG_DEPTH--))
+
+	debug "${str}" ; errcode=$?
+	return $errcode
 }
 
-debug "Sourced file: $BASH_SOURCE"
+debug "Sourced file: ${BASH_SOURCE[0]}"
 debug
