@@ -26,10 +26,10 @@ function user_ssh_addPublicKey() {
 		local HOME_PATH=/home/${USER}
 	fi
 
-	if mkdir -p ${HOME_PATH}/.ssh ; then
-		if touch ${HOME_PATH}/.ssh/authorized_keys ; then
-			if echo "${KEY_PATH}" >> ${HOME_PATH}/.ssh/authorized_keys ; then
-				if chown -R "$USER":"$USER" ${HOME_PATH}/.ssh ; then
+	if mkdir -p "${HOME_PATH}"/.ssh ; then
+		if touch "${HOME_PATH}"/.ssh/authorized_keys ; then
+			if echo "${KEY_PATH}" >> "${HOME_PATH}"/.ssh/authorized_keys ; then
+				if chown -R "$USER":"$USER" "${HOME_PATH}"/.ssh ; then
 					errcode=$?
 				else
 					errcode=$?
