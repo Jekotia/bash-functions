@@ -8,7 +8,7 @@ function package_yum_installFromFile {
 
 	isRoot "exit"
 
-	local file="${@}"
+	local file="${*}"
 
 	rpm -vhi "${file}"
 	errcode=$?

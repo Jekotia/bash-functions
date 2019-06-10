@@ -8,7 +8,7 @@ function package_yum_installFromURL() {
 
 	isRoot "exit"
 
-	URL="${@}"
+	URL="${*}"
 
 	rpm -Uvh "${URL}"
 	errcode=$?

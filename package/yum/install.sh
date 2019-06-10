@@ -31,7 +31,7 @@ function package_yum_install() {
 		shift
 	done
 
-	packages="${@}"
+	packages="${*}"
 	debug "packages=${packages}"
 
 	${YUM_CMD} install "${args}" "${packages}"

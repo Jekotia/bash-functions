@@ -29,7 +29,7 @@ function package_yum_update() {
 		shift
 	done
 
-	packages="${@}"
+	packages="${*}"
 	debug "packages=${packages}"
 
 	${YUM_CMD} install "${args}" "${packages}"
