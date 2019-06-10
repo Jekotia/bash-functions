@@ -6,7 +6,7 @@
 function isRoot() {
 	funcStart
 
-	if [[ `id -u` == "0" ]] ; then
+	if [[ $(id -u) == "0" ]] ; then
 		errcode=$?
 	else
 		echo "This script requires root/sudo!"
