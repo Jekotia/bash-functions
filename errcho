@@ -4,9 +4,10 @@
 #-> TAKES A STRING AS ARGS
 #-> RETURNS STATUS OF ECHO
 function errcho() {
-	>&2 echo "ERROR >>>> $@"
+	local str="${*}"
+	>&2 echo "ERROR >>>> ${str}"
 	return $?
 }
 
-debug "Sourced file: $BASH_SOURCE"
+debug "Sourced file: ${BASH_SOURCE[0]}"
 debug
