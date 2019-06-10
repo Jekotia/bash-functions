@@ -14,9 +14,9 @@ function user_add_sudo {
 	fi
 
 	if package_install --unattended sudo ; then
-		if adduser $USERNAME --disabled-password --gecos "" ; then
+		if adduser "$USERNAME" --disabled-password --gecos "" ; then
 			if echo "$USERNAME:$USERPASS" | chpasswd ; then
-				if usermod -aG sudo $USERNAME ; then
+				if usermod -aG sudo "$USERNAME" ; then
 					return 0
 				else
 					errcho "FAILED AT USERMOD"
