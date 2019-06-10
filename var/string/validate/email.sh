@@ -4,10 +4,12 @@
 #-> TAKES STRING AS ARG
 #-> RETURNS 0 FOR VALID OR 1 FOR INVALID
 function var_string_validate_email() {
-	funcStart debug
+	funcStart ; local errcode
+	local mail_user
+	mail_user="$1"
 
-	if [[ "$1" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$ ]] ; then
-		echo "Email address $1 is valid."
+	if [[ "${mail_user}" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$ ]] ; then
+		echo "Email address ${mail_user} is valid."
 
 		funcEnd "$errcode"
 		return 0
