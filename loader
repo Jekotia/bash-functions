@@ -8,35 +8,40 @@
 function loader() {
 	funcStart
 
-	#-> SET VARIABLE CONTAINING PATH TO SOURCE FROM
-	local path="${1}" ; shift
+#-> PREP
+	local path			#-> VARIABLE CONTAINING STARTING PATH
+	local max_depth		#-> VARIABLE CONTAINING MAXIMUM DEPTH
+	local str			#-> VARIABLE CONTAINING FILE MATCHING GLOB
+	local depth			#-> VARIABLE FOR TRACKING CURRENT DEPTH
+	local depth_str		#-> VARIABLE FOR BUILDING DEPTH-BASED PATH TO SOURCE FROM
 
-	local max_depth
-	if [[ "${1}" == "0" ]] ; then #|| [[ "${@}" == "" ]] ; then
+	path="${1}"			; shift
+	max_depth="${1}"	; shift
+	str="${1}"			; shift
+	depth=1
+	depth_str=""
+
+
+	if [[ "${max_depth}" == "0" ]] ; then
 		#-> DETERMINE MAXIMUM DEPTH OF $path DIRECTORY TREE
-		max_depth=$(find "${path}" -type d -printf '%d\n' | sort -rn | head -1)
-		((max_depth--))
+		max_depth=$(find "${path}" \( ! -regex '.*/\..*' \) -type d -printf '%d\n' | sort -rn | head -1)
+		#-> INCREMENT MAX DEPTH BY ONE, SINCE IT COMES UP SHORT FOR OUR PURPOSES
+		((max_depth++))
+
+		debug "Maximum loader depth: ${max_depth} (max)"
 	else
-		max_depth=${1}
+		debug "Maximum loader depth: ${max_depth}"
 	fi
 
-	debug "Maximum loader depth: ${max_depth}"
-	shift
-
-	#-> INCREMENT MAX DEPTH BY ONE, SINCE IT COMES UP SHORT FOR OUR PURPOSES
-
-	#-> SET VARIABLE CONTAINING FILE MATCHING GLOB
-	local str="${1}" ; shift
-
-	#-> SET VARIABLE FOR TRACKING CURRENT DEPTH
 	local depth=0
-	#-> SET VERIABLE FOR BUILDING DEPTH-BASED PATH TO SOURCE FROM
 	local depth_str=""
 
+#-> EXECUTION
 	#-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
-	while [[ ${depth} -ne "${max_depth}" ]] ; do
+	while [[ ${depth} -lt "${max_depth}" ]] ; do
+		((depth++))
+
 		local target="${path}/${depth_str}${str}"
-#		debug $target
 		debug "Sourcing at depth ${depth} in directory ${path}/${depth_str}"
 
 		#-> LOOP FOR EACH FILE AT THE PATH EXPRESSED BY $SOURCE_PATH
@@ -61,8 +66,6 @@ function loader() {
 
 		#-> INCREASE THE DEPTH EXPRESSED
 		depth_str="${depth_str}*/"
-		((depth++))
-		debug
 	done
 
 	funcEnd

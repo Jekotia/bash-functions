@@ -1,0 +1,3 @@
+[submodule "tomdoc.sh"]
+	path = tomdoc.sh
+	url = https://github.com/mlafeldt/tomdoc.sh.git
