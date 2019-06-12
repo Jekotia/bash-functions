@@ -16,8 +16,5 @@ source "${_ROOT}/loader"
 
 loader "${_ROOT}" "0" "*.sh"
 
+funcEnd
 debug "end ${_ROOT}/init"
-debug
-debug
-#-> FIGURE OUT ALTERNATIVE AS THE DEBUG RETURNS OF 1 ARE BEING PASSED TO THE PARENT
-echo
