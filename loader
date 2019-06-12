@@ -1,10 +1,19 @@
 #! /bin/bash
 
-#-> PRIMARY FUNCTION FILE LOADER. LOADS ALL FILES ENDING IN .sh UNDER THE PATH PROVIDED, TO ANY DEPTH
-#-> TAKES THREE ARGS
-#->   - $1|path = DIRECTORY TO BEGIN IN
-#->   - $2|max_depth = MAXIMUM DIRECTORY DEPTH; INTEGER, 0 FOR UNLIMITED
-#->   - $3|str = FILE NAME MATCHING PATTERN
+# Public: Primary function-file loader.
+#
+# Sources all files under the specified tree, to the specified depth, matching
+# the specified glob.
+#
+# $1 - Path to begin in.
+# $2 - Maximum directory depth to search at. Integer; 0 for full tree.
+# $3 - File-name matching glob
+#
+# Examples
+#
+#   loader "./functions" "0" "*.sh"
+#
+# Always returns an exit code of 0
 function loader() {
 	funcStart
 
