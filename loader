@@ -34,7 +34,7 @@ function loader() {
 	local depth_str=""
 
 	#-> WHILE CURRENT DEPTH IS BELOW MAX DEPTH, DO STUFF
-	while [ ${depth} -ne "${max_depth}" ] ; do
+	while [[ ${depth} -ne "${max_depth}" ]] ; do
 		local target="${path}/${depth_str}${str}"
 #		debug $target
 		debug "Sourcing at depth ${depth} in directory ${path}/${depth_str}"
