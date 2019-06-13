@@ -1,14 +1,28 @@
 #! /bin/bash
 
-#-> 
-#-> 
-#-> 
-function funcStart() {
-	debug "BEGIN FUNCTION ${FUNCNAME[1]}"
+# The version of the function file in format "x.y.z".
+export JLB_FUNCSTART_VERSION=1.0.0
+
+# Public: Indicates where a function begins
+#
+# When debugging, states in terminal output where a function begins.
+# Also increments JLB_DEBUG_DEPTH for use by jlb::debug
+#
+# No arguments.
+#
+# Examples
+#
+#   jlb::funcStart
+#
+# Returns the result of jlb::debug
+function jlb::funcStart() {
+	jlb::debug "BEGIN FUNCTION ${FUNCNAME[1]}"
 	local errcode=$?
-	((DEBUG_DEPTH++))
+
+	((JLB_DEBUG_DEPTH++))
+	export JLB_DEBUG_DEPTH
+
 	return ${errcode}
 }
 
-debug "Sourced file: ${BASH_SOURCE[0]}"
-debug
+jlb::debug "Sourced file: ${BASH_SOURCE[0]}"

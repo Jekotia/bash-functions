@@ -3,10 +3,10 @@
 #-> DISABLES ROOT ACCESS VIA SSH
 #-> NO ARGS
 #-> 
-function system_sshd_disableRoot() {
-	funcStart
+function jlb::system::sshd::disable_root() {
+	jlb::funcStart ; local errcode
 
-	isRoot "exit"
+	jlb::is_root "exit"
 
     if sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config ; then
 	    touch /tmp/restart-ssh
@@ -15,6 +15,5 @@ function system_sshd_disableRoot() {
 		errcode=$?
 	fi
 
-	funcEnd "$errcode"
-	return $errcode
+	jlb::funcEnd "${errcode}" ; return ${errcode}
 }

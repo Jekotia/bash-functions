@@ -3,11 +3,11 @@
 #-> 
 #-> 
 #-> 
-function jlb::package::update() {
+function jlb::package::install_from_file() {
 	jlb::funcStart ; local errcode
 
 	if jlb::package::get_manager ; then
-		package::"${JLB_PACKAGE_MANAGER}"::update "$@"
+		package::"${JLB_PACKAGE_MANAGER}"::install_from_file "$@"
 		errcode=$?
 	else
 		errcode=$?

@@ -2,34 +2,42 @@
 #-> Installs sudo if needed and creates a user in the sudo group.
 #-> $1 - Required - username
 #-> $2 - Required - password
-function user_add_sudo {
-	isRoot "exit"
+function jlb::user::add_sudo {
+	jlb::funcStart ; local errcode
 
-	USERNAME="$1"
-	USERPASS="$2"
+	local 	username \
+			userpass
 
-	if [ ! -n "$USERNAME" ] || [ ! -n "$USERPASS" ]; then
-		errcho "No new username and/or password entered"
-		return 1;
-	fi
+	jlb::is_root "exit"
 
-	if package_install --unattended sudo ; then
-		if adduser "$USERNAME" --disabled-password --gecos "" ; then
-			if echo "$USERNAME:$USERPASS" | chpasswd ; then
-				if usermod -aG sudo "$USERNAME" ; then
-					return 0
+	username="$1" ; shift
+	userpass="$1" ; shift
+
+	if [ ! -n "$username" ] || [ ! -n "$userpass" ]; then
+		errcode=1
+
+		jlb::printerr "No new username and/or password entered"
+	elif jlb::package::install --unattended "sudo" ; then
+		if adduser "$username" --disabled-password --gecos "" ; then
+			if echo "${username}:{$userpass}" | chpasswd ; then
+				if usermod -aG sudo "${username}" ; then
+					errcode=0
 				else
-					errcho "FAILED AT USERMOD"
-					return 1
+					errcode=1
+					jlb::printerr "FAILED AT USERMOD"
 				fi
 			else
-				errcho "FAILED AT CHPASSWD"
-				return 1
+				errcode=1
+				jlb::printerr "FAILED AT CHPASSWD"
 			fi
 		else
-			errcho "FAILED AT USERADD"
+			errcode=1
+			jlb::printerr "FAILED AT USERADD"
 		fi
 	else
-		errcho "FAILED AT INSTALLING SUDO"
+		errcode=1
+		jlb::printerr "FAILED AT INSTALLING SUDO"
 	fi
+
+	jlb::funcEnd "${errcode}" ; return ${funcEnd}
 }

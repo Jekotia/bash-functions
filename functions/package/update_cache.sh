@@ -3,11 +3,11 @@
 #-> 
 #-> 
 #-> 
-function jlb::package::update() {
+function jlb::package::update_cache() {
 	jlb::funcStart ; local errcode
 
 	if jlb::package::get_manager ; then
-		package::"${JLB_PACKAGE_MANAGER}"::update "$@"
+		package::"${JLB_PACKAGE_MANAGER}"::update_cache "$@"
 		errcode=$?
 	else
 		errcode=$?

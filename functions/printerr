@@ -1,0 +1,23 @@
+#! /bin/bash
+
+# The version of the function file in format "x.y.z".
+export JLB_PRINTERR_VERSION=1.0.0
+
+# Public: Prints to stderr
+#
+# Used to print error messages to stderr
+#
+# $1 - The string to print.
+#
+# Examples
+#
+#   jlb::printerr "Something went wrong!"
+#
+# Returns status of printf
+function jlb::printerr() {
+	local str="${*}"
+	>&2 printf "ERROR >>>> %s\n" "${str}"
+	return $?
+}
+
+jlb::debug "Sourced file: ${BASH_SOURCE[0]}"

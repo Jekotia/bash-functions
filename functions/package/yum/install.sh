@@ -5,8 +5,11 @@
 #->   --unattended
 #->   --verbose
 #-> RETURNS THE EXIT CODE OF THE YUM COMMAND
-function package_yum_install() {
-	funcStart
+function jlb::package::yum::install() {
+	jlb::funcStart ; local errcode
+
+	local	packages \
+			args
 
 	#-> CHECK IF ARGUMENTS FOR THE PACKAGE MANAGER HAVE
 	#-> BEEN PASSED, AND SET THEIR YUM EQUIVALENTS IF SO.
@@ -14,15 +17,16 @@ function package_yum_install() {
 		case $1 in
 			--unattended)
 				args="${args} -y"
-				debug "Package manager is now unattended"
+				jlb::debug "Package manager is now unattended"
 			;;
 			--verbose)
 				args="${args} --verbose"
-				debug "Package manager is now verbose"
+				jlb::debug "Package manager is now verbose"
 			;;
 			--*)
-				errcho "Invalid argument ($1) provided."
-				return 1
+				jlb::printerr "Invalid argument ($1) provided."
+				errcode=1
+				jlb::funcEnd "${errcode}" ; return ${errcode}
 			;;
 			*)
 				break
@@ -32,11 +36,10 @@ function package_yum_install() {
 	done
 
 	packages="${*}"
-	debug "packages=${packages}"
+	jlb::debug "packages=${packages}"
 
-	${YUM_CMD} install "${args}" "${packages}"
+	${JLB_PACKAGE_MANAGER_CMD} install "${args}" "${packages}"
 	errcode=$?
 
-	funcEnd "$errcode"
-	return $errcode
+	jlb::funcEnd "${errcode}" ; return ${errcode}
 }

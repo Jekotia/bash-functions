@@ -1,23 +1,70 @@
 #! /bin/bash
 
-#-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
+# The version of the function file in format "x.y.z".
+export JLB_INIT_VERSION=1.0.0
 
-# Root directory containing this repos' file structure
-_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# Public: Primary initialisation system for library
+#
+# Sources core functions and runs the loader.
+#
+# $1 - Path the directory containing this init file.
+# $2 - OPTIONAL: 
+#
+# Examples
+#
+#   init "${jlb_root}"
+#
+# Returns 0 unless jlb::loader fails.
+function jlb::init() {
+	local	errcode \
+			path
 
-#-> SOURCE CORE FUNCTION FILES
-# shellcheck source=./debug
-source "${_ROOT}/debug"
-# shellcheck source=./funcStart
-source "${_ROOT}/funcStart"
-# shellcheck source=./funcEnd
-source "${_ROOT}/funcEnd"
-# shellcheck source=./errcho
-source "${_ROOT}/errcho"
-# shellcheck source=./loader
-source "${_ROOT}/loader"
+	path="${*}"
+	#-> SOURCE CORE FUNCTION FILES
+	# shellcheck source=./debug
+	source "${path}/debug"
+	# shellcheck source=./funcStart
+	source "${path}/funcStart"
+	# shellcheck source=./funcEnd
+	source "${path}/funcEnd"
+	# shellcheck source=./printerr
+	source "${path}/printerr"
+	# shellcheck source=./loader
+	source "${path}/loader"
 
-#-> CALL THE LOADER ON THE PROJECT ROOT
-loader "${_ROOT}" "0" "*.sh"
+	#-> CALL THE LOADER ON THE PROJECT ROOT
+	if ! jlb::loader "${path}" "0" "*.sh" ; then
+		errcode=1
+	fi
 
-debug "end ${_ROOT}/init"
+	jlb::debug "end ${path}/init"
+
+	jlb::funcEnd "${errcode}" ; return ${errcode}
+}
+
+JLB_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# Root directory containing this repos' function file structure
+export JLB_ROOT
+
+#-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
+case $1 in
+	--debug)
+		shift
+		# Variable for confirming if debug mode is on
+		export JLB_DEBUG=true
+
+		# Variable for tracking the nesting depth of functions
+		export JLB_DEBUG_DEPTH=0
+
+		printf "DEBUG STATEMENTS ENABLED. THESE WILL GO TO STDERR SO AS NOT TO CONTAMINATE STRING RETURNS\n"
+	;;
+esac
+
+if [ -z "${JLB_TESTS+x}" ] ; then
+	# Variable for confirming if testing mode is on
+	export JLB_TESTS=false
+else
+	printf "Executing with JLB_TESTS=true\n"
+fi
+
+jlb::init "${JLB_ROOT}" || exit 1

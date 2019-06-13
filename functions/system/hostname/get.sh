@@ -3,15 +3,15 @@
 #-> 
 #-> 
 #-> 
-function system_hostname_get() {
-	funcStart ; local errcode
+function jlb::system::hostname::get() {
+	jlb::funcStart ; local errcode
 
 	local hostname
+
 	hostname=$(hostname)
 	errcode=$?
 
 	echo "${hostname}"
 
-	funcEnd "$errcode"
-	return $errcode
+	jlb::funcEnd "${errcode}" ; return ${errcode}
 }

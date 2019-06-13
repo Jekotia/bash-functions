@@ -1,26 +1,29 @@
 #! /bin/bash
 
 # The version of the function file in format "x.y.z".
-export DEBUG_VERSION=1.0.0
+export JLB_DEBUG_VERSION=1.0.0
 
 # Public: Prints to the terminal if --debug is passed at execution
 #
-# Prints the provided string to the terminal, via errcho(), if
+# Prints the provided string to the terminal, via jlb::printerr(), if
 # the --debug flag is passed at the time of script execution.
 # When used in conjunction with funcStart() and funcEnd(), adjusts
 # indentation automatically to better illustrate the nesting of
 # functions.
+# Prints to stderr so as not to contaminate the output of functions
+# designed to return strings.
 #
 # $1 - String to be printed.
 #
 # Examples
 #
-#   debug "Successfully executed $cmd"
+#   jlb::debug "Successfully executed $cmd"
 #
 # Always returns 0.
-function debug() {
-	if [[ "$DEBUG" == "true" ]] ; then
+function jlb::debug() {
+	if [[ "$JLB_DEBUG" == "true" ]] ; then
 		local str
+		local debug_str
 		local debug_depth_str
 		local debug_depth_loop
 
@@ -30,26 +33,17 @@ function debug() {
 		if [[ ! -z "${str}" ]] ; then
 			debug_depth_loop=0
 
-			while [ ${debug_depth_loop} -lt "${DEBUG_DEPTH}" ] ; do
+			while [ ${debug_depth_loop} -lt "${JLB_DEBUG_DEPTH}" ] ; do
 				debug_depth_str="${debug_depth_str} "
 				((debug_depth_loop++))
 			done
 
-			>&2 printf "DEBUG ${debug_depth_str}> ${str}\n"
+			debug_str="${debug_depth_str}> ${str}"
+			>&2 printf "DEBUG %s\n" "${debug_str}"
 		fi
 	fi
 
 	return 0
 }
 
-#-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
-case $1 in
-	--debug)
-		shift
-		DEBUG=true
-		DEBUG_DEPTH=0
-		debug "DEBUG STATEMENTS ENABLED. THESE WILL GO TO STDERR SO AS NOT TO CONTAMINATE STRING RETURNS"
-	;;
-esac
-
-debug "Sourced file: ${BASH_SOURCE[0]}"
+jlb::debug "Sourced file: ${BASH_SOURCE[0]}"

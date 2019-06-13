@@ -3,21 +3,22 @@
 #-> 
 #-> 
 #-> 
-function system_hostname_set() {
-	funcStart
+function jlb::system::hostname::set() {
+	jlb::funcStart ; local errcode
 
-	isRoot "exit"
+	local hostname
 
-	# $1 - The hostname to define
-	HOSTNAME="$1"
+	jlb::is_root "exit"
 
-	if [ ! -n "$HOSTNAME" ]; then
+	hostname="$1"
+
+	if [ ! -n "$hostname" ]; then
 		echo "Hostname undefined"
-		funcEnd "$errcode"
-		return 1;
+		errcode=1
+		jlb::funcEnd "${errcode}" ; return ${errcode}
 	fi
 
-	if echo "$HOSTNAME" > /etc/hostname ; then
+	if echo "$hostname" > /etc/hostname ; then
 		if ! hostname -F /etc/hostname ; then
 			errcode=$?
 		fi
@@ -25,6 +26,5 @@ function system_hostname_set() {
 		errcode=$?
 	fi
 
-	funcEnd "$errcode"
-	return $errcode
+	jlb::funcEnd "${errcode}" ; return ${errcode}
 }
