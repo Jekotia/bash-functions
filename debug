@@ -19,7 +19,6 @@ export DEBUG_VERSION=1.0.0
 #
 # Always returns 0.
 function debug() {
-#	local errcode
 	if [[ "$DEBUG" == "true" ]] ; then
 		local str
 		local debug_depth_str
@@ -36,12 +35,11 @@ function debug() {
 				((debug_depth_loop++))
 			done
 
-			>&2 echo "DEBUG ${debug_depth_str}> ${str}"
+			>&2 printf "DEBUG ${debug_depth_str}> ${str}\n"
 		fi
-		return 0
-	else
-		return 0
 	fi
+
+	return 0
 }
 
 #-> CHECK IF THE --debug FLAG HAS BEEN PASSED. IF SO, REMOVES IT AND SETS THE DEBUG VARIABLE TO true
