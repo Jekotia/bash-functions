@@ -1,17 +1,35 @@
 #! /bin/bash
 
+# The version of the function file in format "x.y.z".
+export DEBUG_VERSION=1.0.0
 
-#-> CHECKS IF DEBUG IS SET TO TRUE AND ECHOS ALL ARGS IF SO
-#-> TAKES STRINGS AS ARGS
-#-> ALWAYS RETURNS 0
+# Public: Prints to the terminal if --debug is passed at execution
+#
+# Prints the provided string to the terminal, via errcho(), if
+# the --debug flag is passed at the time of script execution.
+# When used in conjunction with funcStart() and funcEnd(), adjusts
+# indentation automatically to better illustrate the nesting of
+# functions.
+#
+# $1 - String to be printed.
+#
+# Examples
+#
+#   debug "Successfully executed $cmd"
+#
+# Always returns 0.
 function debug() {
 #	local errcode
 	if [[ "$DEBUG" == "true" ]] ; then
-		local str="${*}"
-		local debug_depth_str="${debug_depth_str}"
+		local str
+		local debug_depth_str
+		local debug_depth_loop
+
+		str="${*}"
+		debug_depth_str="${debug_depth_str}"
 
 		if [[ ! -z "${str}" ]] ; then
-			local debug_depth_loop=0
+			debug_depth_loop=0
 
 			while [ ${debug_depth_loop} -lt "${DEBUG_DEPTH}" ] ; do
 				debug_depth_str="${debug_depth_str} "
@@ -32,11 +50,8 @@ case $1 in
 		shift
 		DEBUG=true
 		DEBUG_DEPTH=0
-		debug
 		debug "DEBUG STATEMENTS ENABLED. THESE WILL GO TO STDERR SO AS NOT TO CONTAMINATE STRING RETURNS"
-		debug
 	;;
 esac
 
 debug "Sourced file: ${BASH_SOURCE[0]}"
-debug
