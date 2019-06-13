@@ -1,8 +1,11 @@
 #! /bin/bash
 
 #-> PRIMARY INITIALISATION SYSTEM FOR ALL SCRIPTS
-#-> RELIES ON $_ROOT HAVING BEEN SET BY THE SCRIPT CALLING IT, POINTING TO THE DIRECTORY CONTAINING init
+
+# Root directory containing this repos' file structure
 _ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+#-> SOURCE CORE FUNCTION FILES
 # shellcheck source=./debug
 source "${_ROOT}/debug"
 # shellcheck source=./funcStart
@@ -14,7 +17,7 @@ source "${_ROOT}/errcho"
 # shellcheck source=./loader
 source "${_ROOT}/loader"
 
+#-> CALL THE LOADER ON THE PROJECT ROOT
 loader "${_ROOT}" "0" "*.sh"
 
-funcEnd
 debug "end ${_ROOT}/init"
