@@ -22,5 +22,5 @@ function jlb::skeleton() {
 
 	### FUNCTION CODE HERE ###
 
-	jlb::funcEnd "${errcode}" ; return ${errcode}
+	jlb::funcEnd "${errcode}" ; return "${errcode}"
 }
