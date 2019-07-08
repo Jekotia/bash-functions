@@ -51,6 +51,3 @@ This project closely adheres to Google's [Shell Style Guide](https://google.gith
         * The name will begin with `jlb::` which references this repos name: **j**ekotia/**l**ib**b**ash.
         * `::` will be used to separate the elements of the functions' path.
         * Using the above approach, for a function file located at ./functions/package/install.sh, the appropriate function name would be `jlb::package::install`.
-    * Constants and Environment Variable Names
-        * In order to be detected and documented by tomdoc.sh, environment variables are to be declared by export.
-        * Note that a pull request to support declare has been submitted to [tests-always-included/tomdoc.sh](https://github.com/tests-always-included/tomdoc.sh)and will hopefully be accepted.
