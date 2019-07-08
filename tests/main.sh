@@ -1,6 +1,7 @@
 #! /bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# shellcheck disable=SC1090
 source "${DIR}/common.sh"
 
 testFiles+=( "/functions/init" )
@@ -20,6 +21,7 @@ test_debug_funcStart_funcEnd() {
 	#-> Turn on debug for further testing
 	export JLB_DEBUG=true
 	export JLB_DEBUG_DEPTH=0
+	# shellcheck disable=SC2034
 	JLB_TEST="true"
 
 	str="testing"
@@ -81,4 +83,6 @@ test_printerr() {
 }
 
 # Load shUnit2.
+# shellcheck disable=SC1090
+# shellcheck disable=SC2046
 source "$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))/shunit2/shunit2"

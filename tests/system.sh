@@ -1,6 +1,7 @@
 #! /bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# shellcheck disable=SC1090
 source "${DIR}/common.sh"
 
 #---
@@ -42,4 +43,6 @@ test_system_sshd_disable_root() {
 }
 
 # Load shUnit2.
+# shellcheck disable=SC1090
+# shellcheck disable=SC2046
 source "$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))/shunit2/shunit2"

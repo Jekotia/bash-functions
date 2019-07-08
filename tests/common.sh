@@ -8,16 +8,18 @@ oneTimeSetUp() {
 	export JLB_TESTS_DIR="${DIR}"
 	export JLB_TESTS_TMP="${JLB_TESTS_DIR}/tmp"
 	export JLB_TESTS_FILES="${JLB_TESTS_DIR}/files"
+	# shellcheck disable=SC2046
 	JLB_ROOT="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))/functions"
+	# shellcheck disable=SC1090
 	source "$JLB_ROOT/init" "$@" || exit 1
 
 	mkdir -p "${JLB_TESTS_TMP}"
-	cp -ar ${JLB_TESTS_FILES}/* "${JLB_TESTS_TMP}"
+	cp -ar "${JLB_TESTS_FILES}/"* "${JLB_TESTS_TMP}"
 
 	echo
 	echo "Testing files:"
-	for file in ${testFiles[@]} ; do
-		echo $file
+	for file in "${testFiles[@]}" ; do
+		echo "$file"
 	done
 	echo
 
