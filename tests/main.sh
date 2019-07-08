@@ -1,0 +1,84 @@
+#! /bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "${DIR}/common.sh"
+
+testFiles+=( "/functions/init" )
+# Test initialisation system
+test_init() {
+	jlb::init "${JLB_ROOT}"
+	assertEquals $? 0
+}
+
+testFiles+=( "/functions/debug" "/functions/funcStart" "/functions/funcEnd" )
+# Test debug command and FuncStart/funcEnd
+test_debug_funcStart_funcEnd() {
+	assertNull "Verify that when not explicitly turned on, debug is silent" "$(jlb::debug "testing")"
+
+#	assertNull "Verify that debug will fail loudly when not provided with arguments" $(jlb::debug "")
+
+	#-> Turn on debug for further testing
+	export JLB_DEBUG=true
+	export JLB_DEBUG_DEPTH=0
+	JLB_TEST="true"
+
+	str="testing"
+	str_excode="1"
+	str_func="test_debug_funcStart_funcEnd"
+	str_start="BEGIN FUNCTION ${str_func}"
+	str_end="END FUNCTION ${str_func}"
+	str_exit="${str_end} with return value of ${str_excode}"
+
+	str_indent=" "
+
+	str_0="${JLB_DEBUG_PREFIX}> "
+	str_1="${JLB_DEBUG_PREFIX}${str_indent}> "
+	str_2="${JLB_DEBUG_PREFIX}${str_indent}${str_indent}> "
+	str_3="${JLB_DEBUG_PREFIX}${str_indent}${str_indent}${str_indent}> "
+
+
+
+
+	assertEquals "Verify that 0-nested jlb::debug prints as expected." "${str_0}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 0-nested jlb::funcStart prints as expected." "${str_0}${str_start}" "$(jlb::funcStart)"
+	export JLB_DEBUG_DEPTH=1
+
+	assertEquals "Verify that 1-nested jlb::debug prints as expected." "${str_1}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 1-nested jlb::funcStart prints as expected." "${str_1}${str_start}" "$(jlb::funcStart)"
+	export JLB_DEBUG_DEPTH=2
+
+	assertEquals "Verify that 2-nested jlb::debug prints as expected." "${str_2}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 2-nested jlb::funcStart prints as expected." "${str_2}${str_start}" "$(jlb::funcStart)"
+	export JLB_DEBUG_DEPTH=3
+
+	assertEquals "Verify that 3-nested jlb::debug prints as expected." "${str_3}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 3-nested jlb::funcEnd prints as expected." "${str_2}${str_end}" "$(jlb::funcEnd)"
+	export JLB_DEBUG_DEPTH=2
+
+	assertEquals "Verify that 2-nested jlb::debug prints as expected." "${str_2}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 2-nested jlb::funcStart prints as expected." "${str_2}${str_start}" "$(jlb::funcStart)"
+	export JLB_DEBUG_DEPTH=3
+
+	assertEquals "Verify that 3-nested jlb::debug prints as expected." "${str_3}${str}" "$(jlb::debug "${str}")"
+	assertEquals "Verify that 3-nested jlb::funcEnd prints as expected." "${str_2}${str_exit}" "$(jlb::funcEnd $str_excode)"
+	export JLB_DEBUG_DEPTH=2
+
+#	assertEquals "Verify that 3-nested jlb::debug's prints as expected" "${str_1}" "$(jlb::debug "testing")"
+
+#	assertEquals "Verify that 2-nested jlb::funcStart prints as expected" "${JLB_DEBUG_PREFIX} > BEGIN FUNCTION testDebug" "$(jlb::funcStart)"
+#	assertEquals "Verify that 2-nested jlb::debug's prints as expected" "${JLB_DEBUG_PREFIX}  > testing" "$(jlb::debug "testing")"
+
+#	assertEquals "Verify that 1-nested jlb::funcEnd prints as expected" "${JLB_DEBUG_PREFIX} > END FUNCTION testDebug" "$(jlb::funcEnd)"
+#	assertEquals "Verify that 1-nested jlb::debug's prints as expected" "${JLB_DEBUG_PREFIX}  > testing" "$(jlb::debug "testing")"
+
+#	assertEquals "Verify that jlb::funcEnd prints as expected" "${JLB_DEBUG_PREFIX}> END FUNCTION testDebug" "$(jlb::funcEnd)"
+}
+
+testFiles+=( "/functions/printerr" )
+# 
+test_printerr() {
+	assertEquals "Verify printerr output" "${JLB_ERROR_PREFIX} test" "$(jlb::printerr "test")"
+}
+
+# Load shUnit2.
+source "$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))/shunit2/shunit2"
