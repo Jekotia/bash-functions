@@ -18,9 +18,9 @@ export JLB_SKELETON_VERSION=1.0.0
 #
 # Returns 1 if the skeleton remained silent, 0 if it rattled.
 function jlb::skeleton() {
-	jlb::funcStart ; local errcode
+	jlb::funcStart ; local errcode=
 
 	### FUNCTION CODE HERE ###
 
-	jlb::funcEnd "${errcode}" ; return "${errcode}"
+	jlb::funcEnd "${errcode}" ; return $errcode
 }
