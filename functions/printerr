@@ -1,7 +1,10 @@
 #! /bin/bash
-
 # The version of the function file in format "x.y.z".
 export JLB_PRINTERR_VERSION=1.0.0
+
+# Variable for changing prefix format
+#JLB_ERROR_PREFIX="${JLB_PRINTF_RED}${JLB_PRINTF_CROSS} "
+JLB_ERROR_PREFIX="ERR "
 
 # Public: Prints to stderr
 #
@@ -16,7 +19,12 @@ export JLB_PRINTERR_VERSION=1.0.0
 # Returns status of printf
 function jlb::printerr() {
 	local str="${*}"
-	>&2 printf "ERROR >>>> %s\n" "${str}"
+	if [[ "$JLB_TEST" == "true" ]] ; then
+		printf "${JLB_ERROR_PREFIX} %s\n" "${str}"
+	else
+		>&2 printf "${JLB_ERROR_PREFIX} %s\n" "${str}"
+	fi
+
 	return $?
 }
 

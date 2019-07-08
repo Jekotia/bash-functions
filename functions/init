@@ -20,6 +20,8 @@ function jlb::init() {
 			   path="${*}"
 
 	#-> SOURCE CORE FUNCTION FILES
+	# shellcheck source=./formatting
+	source "${path}/formatting" || exit 1
 	# shellcheck source=./debug
 	source "${path}/debug" || exit 1
 	# shellcheck source=./funcStart
@@ -37,8 +39,6 @@ function jlb::init() {
 	fi
 
 	jlb::debug "end ${path}/init"
-
-	jlb::funcEnd "${errcode}" ; return ${errcode}
 }
 
 JLB_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
