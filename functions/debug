@@ -3,6 +3,9 @@
 # The version of the function file in format "x.y.z".
 export JLB_DEBUG_VERSION=1.0.0
 
+# Overridable variable for controlling debug output prefix
+JLB_DEBUG_PREFIX="DEBUG "
+
 # Public: Prints to the terminal if --debug is passed at execution
 #
 # Prints the provided string to the terminal, via jlb::printerr(), if
@@ -39,7 +42,11 @@ function jlb::debug() {
 			done
 
 			debug_str="${debug_depth_str}> ${str}"
-			>&2 printf "DEBUG %s\n" "${debug_str}"
+			if [[ "$JLB_TEST" == "true" ]] ; then
+				printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
+			else
+				>&2 printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
+			fi
 		fi
 	fi
 

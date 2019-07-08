@@ -1,0 +1,75 @@
+#! /bin/bash
+# The version of the function file in format "x.y.z".
+declare -xr JLB_FORMATTING_VERSION=1.0.0
+
+# Globally available string for BLACK formatting
+JLB_PRINTF_BLACK=$(tput setaf 0)
+declare -xr JLB_PRINTF_BLACK
+
+# Globally available string for RED formatting
+JLB_PRINTF_RED=$(tput setaf 1)
+declare -xr JLB_PRINTF_RED
+
+# Globally available string for GREEN formatting
+JLB_PRINTF_GREEN=$(tput setaf 2)
+declare -xr JLB_PRINTF_GREEN
+
+# Globally available string for YELLOW formatting
+JLB_PRINTF_YELLOW=$(tput setaf 3)
+declare -xr JLB_PRINTF_YELLOW
+
+# Globally available string for LIME_YELLOW formatting
+JLB_PRINTF_LIME_YELLOW=$(tput setaf 190)
+declare -xr JLB_PRINTF_LIME_YELLOW
+
+# Globally available string for POWDER_BLUE formatting
+JLB_PRINTF_POWDER_BLUE=$(tput setaf 153)
+declare -xr JLB_PRINTF_POWDER_BLUE
+
+# Globally available string for BLUE formatting
+JLB_PRINTF_BLUE=$(tput setaf 4)
+declare -xr JLB_PRINTF_BLUE
+
+# Globally available string for MAGENTA formatting
+JLB_PRINTF_MAGENTA=$(tput setaf 5)
+declare -xr JLB_PRINTF_MAGENTA
+
+# Globally available string for CYAN formatting
+JLB_PRINTF_CYAN=$(tput setaf 6)
+declare -xr JLB_PRINTF_CYAN
+
+# Globally available string for WHITE formatting
+JLB_PRINTF_WHITE=$(tput setaf 7)
+declare -xr JLB_PRINTF_WHITE
+
+# Globally available string for BRIGHT formatting
+JLB_PRINTF_BRIGHT=$(tput bold)
+declare -xr JLB_PRINTF_BRIGHT
+
+# Globally available string for NORMAL formatting
+JLB_PRINTF_NORMAL=$(tput sgr0)
+declare -xr JLB_PRINTF_NORMAL
+
+# Globally available string for BLINK formatting
+JLB_PRINTF_BLINK=$(tput blink)
+declare -xr JLB_PRINTF_BLINK
+
+# Globally available string for REVERSE formatting
+JLB_PRINTF_REVERSE=$(tput smso)
+declare -xr JLB_PRINTF_REVERSE
+
+# Globally available string for UNDERLINE formatting
+JLB_PRINTF_UNDERLINE=$(tput smul)
+declare -xr JLB_PRINTF_UNDERLINE
+
+# Globally available string for a CHECKMARK character
+JLB_PRINTF_CHECK="\u2714" #"\xE2\x9C\x94"
+declare -xr JLB_PRINTF_CHECK
+
+# Globally available string for a CROSS character
+JLB_PRINTF_CROSS="\u274c" #"\xE2\x9D\x8C"
+declare -xr JLB_PRINTF_CROSS
+
+# Globally available string for an INFO character
+JLB_PRINTF_INFO="\u2139"
+declare -xr JLB_PRINTF_INFO
