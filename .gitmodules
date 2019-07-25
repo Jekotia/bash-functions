@@ -1,6 +1,6 @@
 [submodule "tomdoc.sh"]
 	path = tomdoc.sh
 	url = https://github.com/tests-always-included/tomdoc.sh.git
-[submodule "shunit2"]
-	path = shunit2
-	url = https://github.com/kward/shunit2.git
+[submodule "bats-core"]
+	path = bats-core
+	url = https://github.com/bats-core/bats-core.git
