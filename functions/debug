@@ -24,31 +24,33 @@ JLB_DEBUG_PREFIX="DEBUG "
 #
 # Always returns 0.
 function jlb::debug() {
-	if [[ "$JLB_DEBUG" == "true" ]] ; then
-		local str
-		local debug_str
-		local debug_depth_str
-		local debug_depth_loop
+	case $JLB_DEBUG in
+		(true)
+			local str
+			local debug_str
+			local debug_depth_str
+			local debug_depth_loop
 
-		str="${*}"
-		debug_depth_str="${debug_depth_str}"
+			str="${*}"
+			debug_depth_str="${debug_depth_str}"
 
-		if [[ ! -z "${str}" ]] ; then
-			debug_depth_loop=0
+			if [[ ! -z "${str}" ]] ; then
+				debug_depth_loop=0
 
-			while [ ${debug_depth_loop} -lt "${JLB_DEBUG_DEPTH}" ] ; do
-				debug_depth_str="${debug_depth_str} "
-				((debug_depth_loop++))
-			done
+				while [ ${debug_depth_loop} -lt "${JLB_DEBUG_DEPTH}" ] ; do
+					debug_depth_str="${debug_depth_str} "
+					((debug_depth_loop++))
+				done
 
-			debug_str="${debug_depth_str}> ${str}"
-			if [[ "$JLB_TEST" == "true" ]] ; then
-				printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
-			else
-				>&2 printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
+				debug_str="${debug_depth_str}> ${str}"
+				if [[ "$JLB_TEST" == "true" ]] ; then
+					printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
+				else
+					>&2 printf "${JLB_DEBUG_PREFIX}%s\n" "${debug_str}"
+				fi
 			fi
-		fi
-	fi
+		;;
+	esac
 
 	return 0
 }
