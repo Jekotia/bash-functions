@@ -27,7 +27,7 @@ oneTimeSetUp() {
 }
 
 oneTimeTearDown() {
-	rm -rf "${JLB_TESTS_TMP}"
+	echo #rm -rf "${JLB_TESTS_TMP}"
 }
 
 # Unset variables between tests

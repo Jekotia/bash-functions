@@ -1,0 +1,26 @@
+# As of writing, there are no single-character TLD's. However, they would be
+# technically valid. So as to avoid the effectiveness of this script relying on
+# being updated as new TLD's are approved, no steps are taken to verify that a
+# TLD exists; only that the one supplied is valid in regards to the RFC5322
+# specification.
+
+# For testing consistency, the base email address that is then modified must be
+# 'user@domain.tld'. For a subdomain, it should be 'user@sub.domain.tld'.
+# Service-specific tests are to be added to the 'Email Service Tests' section
+# at the bottom.
+
+user-100@yahoo.com
+user.100@yahoo.com
+user111@user.com
+user-100@user.net
+user.100@user.com.au
+user@1.com
+user@gmail.com.com
+user+100@gmail.com
+user-100@yahoo-test.com
+
+#-> Email Service Tests
+	#-> Gmail
+	user@gmail.com
+
+	user@yahoo.com
