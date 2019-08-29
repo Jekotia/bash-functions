@@ -1,0 +1,26 @@
+#! /bin/bash
+failures=0
+
+while read -r file; do
+	if [[ "${file}" =~ ^.*\.sh$ ]] || [[ "${file}" =~ ^hooks/ ]] ; then
+		echo "Testing: ${file}"
+		if shellcheck "${file}" ; then
+			printf '\u2714 %s\n' "${file}"
+		else
+			printf '\u274c %s\n' "${file}"
+			((failures++))
+		fi
+	else
+		echo "Skipping ${file}"
+	fi
+done < <(git diff --cached --name-only --diff-filter=AM)
+#while read BLAH ; do echo $BLAH; done < <(sysctl -a 2>/dev/null | grep '\.rp_filter')
+
+if [[ $failures -gt 0 ]] ; then
+	echo
+	echo "Error: You attempted to commit one or more sh files which failed shellcheck."
+	echo
+	echo "Please fix them and retry the commit."
+	echo
+	exit 1
+fi
