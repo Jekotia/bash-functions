@@ -26,7 +26,10 @@ function jlb::user::ssh::add_public_key() {
 		jlb::funcEnd "${errcode}"	; return ${errcode}
 	fi
 
-	if [ "$user" == "root" ]; then
+	if [[ "${JLB_TESTS}" == "true" ]] ; then
+		home_path="${JLB_TESTS_TMP}/home"
+		user=${USER}
+	elif [ "$user" == "root" ]; then
 		home_path=/root
 	else
 		home_path=/home/${user}
@@ -34,9 +37,13 @@ function jlb::user::ssh::add_public_key() {
 
 	if mkdir -p "${home_path}"/.ssh ; then
 		if touch "${home_path}"/.ssh/authorized_keys ; then
-			if echo "${key_path}" >> "${home_path}"/.ssh/authorized_keys ; then
+			if cat "${key_path}" >> "${home_path}"/.ssh/authorized_keys ; then
 				if chown -R "$user":"$user" "${home_path}"/.ssh ; then
-					errcode=$?
+					if grep "$(cat "${key_path}")" "${home_path}/.ssh/authorized_keys" > /dev/null ; then
+						errcode=$?
+					else
+						errcode=$?
+					fi
 				else
 					errcode=$?
 				fi

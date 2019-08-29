@@ -39,5 +39,5 @@ function jlb::user::add_sudo {
 		jlb::printerr "FAILED AT INSTALLING SUDO"
 	fi
 
-	jlb::funcEnd "${errcode}" ; return ${funcEnd}
+	jlb::funcEnd "${errcode}" ; return ${errcode}
 }

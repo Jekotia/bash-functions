@@ -20,21 +20,22 @@ function jlb::init() {
 			   path="${*}"
 
 	#-> SOURCE CORE FUNCTION FILES
-	# shellcheck source=./formatting
+	# shellcheck disable=SC1090
 	source "${path}/formatting" || exit 1
-	# shellcheck source=./debug
+	# shellcheck disable=SC1090
 	source "${path}/debug" || exit 1
-	# shellcheck source=./funcStart
+	# shellcheck disable=SC1090
 	source "${path}/funcStart" || exit 1
-	# shellcheck source=./funcEnd
+	# shellcheck disable=SC1090
 	source "${path}/funcEnd" || exit 1
-	# shellcheck source=./printerr
+	# shellcheck disable=SC1090
 	source "${path}/printerr" || exit 1
-	# shellcheck source=./loader
+	# shellcheck disable=SC1090
 	source "${path}/loader" || exit 1
 
 	#-> CALL THE LOADER ON THE PROJECT ROOT
 	if ! jlb::loader "${path}" "0" "*.sh" ; then
+		#shellcheck disable=SC2034
 		errcode=1
 	fi
 

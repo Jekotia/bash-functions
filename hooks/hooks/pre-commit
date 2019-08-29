@@ -1,26 +1,60 @@
 #! /bin/bash
-failures=0
 
-while read -r file; do
+function hook_shellcheck() {
+	local file
+	file="${1}" ; shift
+
+	printf '  Shellcheck: '
 	if [[ "${file}" =~ ^.*\.sh$ ]] || [[ "${file}" =~ ^hooks/ ]] ; then
-		echo "Testing: ${file}"
-		if shellcheck "${file}" ; then
-			printf '\u2714 %s\n' "${file}"
+		if shellcheck "${file}" > /dev/null ; then
+			printf '\u2714\n'
+			return 0
 		else
-			printf '\u274c %s\n' "${file}"
-			((failures++))
+			printf '\u274c\n'
+			return 1
 		fi
 	else
-		echo "Skipping ${file}"
+		printf "Skipping...\n"
 	fi
+}
+
+function hook_tests() {
+	local file
+	file="${1}" ; shift
+
+	printf '     shunit2: '
+	if [[ "${file}" =~ ^functions/.*\.sh$ ]] ; then
+		if [ -e "tests/${file}" ] ; then
+			if "tests/${file}" > /dev/null ; then
+				printf '\u2714\n'
+				return 0
+			else
+				printf '\u274c\n'
+				return 1
+			fi
+		else
+			printf '\u274c - %s\n' "tests/${file} not found."
+			return 1
+		fi
+	else
+		printf "Skipping...\n"
+	fi
+}
+
+failures=0
+while read -r file; do
+	printf 'File: %s\n' "${file}"
+	if ! hook_shellcheck "${file}" ; then
+		((failures++))
+	fi
+	if ! hook_tests "${file}" ; then
+		((failures++))
+	fi
+	printf '\n'
 done < <(git diff --cached --name-only --diff-filter=AM)
 #while read BLAH ; do echo $BLAH; done < <(sysctl -a 2>/dev/null | grep '\.rp_filter')
 
 if [[ $failures -gt 0 ]] ; then
-	echo
-	echo "Error: You attempted to commit one or more sh files which failed shellcheck."
-	echo
-	echo "Please fix them and retry the commit."
-	echo
+	printf "\n%s\n\n%s\n\n" "Error: You attempted to commit one or more sh files with failures." "Please fix them and retry the commit."
 	exit 1
 fi
