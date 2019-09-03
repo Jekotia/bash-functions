@@ -1,17 +1,9 @@
 #! /bin/bash
+#shellcheck disable=SC1090
+source "$(git rev-parse --show-toplevel)/tests/common.sh"
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-# shellcheck disable=SC1090
-source "${DIR}/common.sh"
 
-testFiles+=( "/functions/init" )
-# Test initialisation system
-test_init() {
-	jlb::init "${JLB_ROOT}"
-	assertEquals $? 0
-}
-
-testFiles+=( "/functions/debug" "/functions/funcStart" "/functions/funcEnd" )
+testFiles+=( "functions/debug" "functions/funcStart" "functions/funcEnd" )
 # Test debug command and FuncStart/funcEnd
 test_debug_funcStart_funcEnd() {
 	assertNull "Verify that when not explicitly turned on, debug is silent" "$(jlb::debug "testing")"
@@ -76,13 +68,6 @@ test_debug_funcStart_funcEnd() {
 #	assertEquals "Verify that jlb::funcEnd prints as expected" "${JLB_DEBUG_PREFIX}> END FUNCTION testDebug" "$(jlb::funcEnd)"
 }
 
-testFiles+=( "/functions/printerr" )
-# 
-test_printerr() {
-	assertEquals "Verify printerr output" "${JLB_ERROR_PREFIX} test" "$(jlb::printerr "test")"
-}
 
-# Load shUnit2.
-# shellcheck disable=SC1090
-# shellcheck disable=SC2046
-source "$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))/shunit2/shunit2"
+#shellcheck disable=SC2154
+source "$shunit2Path"

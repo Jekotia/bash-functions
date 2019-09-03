@@ -1,0 +1,15 @@
+#! /bin/bash
+#shellcheck disable=SC1090
+source "$(git rev-parse --show-toplevel)/tests/common.sh"
+
+
+testFiles+=( "functions/init" )
+# Test initialisation system
+test_init() {
+	jlb::init "${JLB_ROOT}"
+	assertEquals $? 0
+}
+
+
+#shellcheck disable=SC2154
+source "$shunit2Path"

@@ -1,5 +1,8 @@
 #! /bin/bash
 
+#shellcheck disable=SC2034
+JLB_TEST="true"
+
 gitRoot="$(git rev-parse --show-toplevel)"
 #shellcheck disable=SC2034
 shunit2Path="${gitRoot}/shunit2/shunit2"

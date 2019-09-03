@@ -4,8 +4,9 @@ function hook_shellcheck() {
 	local file
 	file="${1}" ; shift
 
-	if [[ "${file}" =~ ^.*\.sh$ ]] || [[ "${file}" =~ ^hooks/ ]] ; then
-		if shellcheck "${file}" > /dev/null ; then
+	# if file is: a SH file in any location || any file under the hooks directory || any file under tests/functions/
+	if [[ "${file}" =~ ^.*\.sh$ ]] || [[ "${file}" =~ ^hooks/ ]] || [[ "${file}" =~ ^tests/functions/ ]] ; then
+		if shellcheck "${file}" > /dev/null 2>&1 ; then
 			printf "\u2714 |"
 			return 0
 		else
@@ -23,7 +24,7 @@ function hook_tests() {
 
 	if [[ "${file}" =~ ^functions/.*\.sh$ ]] ; then
 		if [ -e "tests/${file}" ] ; then
-			if "tests/${file}" > /dev/null ; then
+			if "tests/${file}" > /dev/null 2>&1 ; then
 				return 0
 			else
 				return 1

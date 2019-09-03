@@ -2,7 +2,7 @@
 #shellcheck disable=SC1090
 source "$(git rev-parse --show-toplevel)/tests/common.sh"
 
-testFiles+=( "/functions/user/ssh/add_public_key.sh" )
+testFiles+=( "functions/user/ssh/add_public_key.sh" )
 test_user_ssh_add_public_key() {
 	jlb::user::ssh::add_public_key "test" "${JLB_TESTS_TMP}/id_testkey.pub"
 	assertEquals "Test jlb::user::ssh::add_public_key." "0" "$?"

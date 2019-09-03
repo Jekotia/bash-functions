@@ -2,7 +2,7 @@
 #shellcheck disable=SC1090
 source "$(git rev-parse --show-toplevel)/tests/common.sh"
 
-testFiles+=( "/functions/var/string/validate/email.sh" )
+testFiles+=( "functions/var/string/validate/email.sh" )
 # Test jlb::var::string::validate::email
 test_jlb_var_string_validate_email-validEmails() {
 	while read -r email; do
